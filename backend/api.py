@@ -1,5 +1,5 @@
 from flask import Flask, request, Response
-from call_text_manager import call_emergency
+from call_text_manager import call_emergency, text_emergency
 from urllib import parse
 
 app = Flask(__name__)
@@ -11,6 +11,13 @@ def call_em():
     # https://formerly-dashing-bunny.ngrok-free.app/call_emergency?name=John%20Doe&location=E7
     twiml_url = f"https://formerly-dashing-bunny.ngrok-free.app/generate_twiml?name={name}&location={location}"
     return call_emergency(to_number='+15873727398', url=twiml_url)
+
+@app.route('/text_emergency')
+def text_em():
+    #to_name = request.args.get('to_name')
+    #patient_name = request.args.get('patient_name')
+
+    text_emergency(to_number='+15873727398', to_name='John Doe', patient_name='Jane Doe', location='E7')
 
 @app.route('/generate_twiml', methods=['GET', 'POST'])
 def generate_twiml():
