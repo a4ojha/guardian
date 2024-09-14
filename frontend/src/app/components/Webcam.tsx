@@ -26,10 +26,9 @@ export default function WebcamStream() {
   }, []);
 
   return (
-    <div>
-      <h1>Live Webcam Stream</h1>
+    <div className="relative w-full h-full">
       {videoFrame ? (
-        <img src={videoFrame} alt="Webcam Feed" />
+        <img src={videoFrame} alt="Webcam Feed" className="absolute top-2 left-2 bottom-2 right-2 object-cover m-auto w-[98%] h-[95%] rounded-xl" />
       ) : (
         <p>Loading webcam...</p>
       )}
