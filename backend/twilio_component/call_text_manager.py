@@ -10,7 +10,6 @@ load_dotenv()
 account_sid = os.getenv('account_sid')
 auth_token = os.getenv('auth_token')
 phone_number = os.getenv('phone_number')
-databasepw = os.getenv('databasepw')
 
 client = Client(account_sid, auth_token)
 
