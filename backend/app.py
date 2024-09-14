@@ -1,15 +1,24 @@
 from flask import Flask, render_template, Response, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
-from twilio_component.call_text_manager import call_emergency
+from twilio_component.call_text_manager import call_emergency, text_emergency
 from speechify.text2speech import text2speech
 from urllib import parse
+from pymongo.mongo_client import MongoClient
+from bson import ObjectId
+from dotenv import load_dotenv
 import cv2
 import base64
+import os
 
 app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
+
+load_dotenv()
+mongo_client = MongoClient(os.getenv('database_uri'))
+db = mongo_client.get_database('users')
+user_info = db.get_collection('user_info')
 
 # Initialize the webcam
 camera = cv2.VideoCapture(0)
@@ -47,11 +56,22 @@ def stream_video():
 # Phone call endpoint
 @app.route('/call_emergency')
 def call_em():
-    name = parse.quote_plus(request.args.get('name'))
-    location = parse.quote_plus(request.args.get('location'))
+    dbid = parse.quote_plus(request.args.get('dbid'))
+    info = user_info.find_one({'_id': ObjectId(dbid)})
     # https://formerly-dashing-bunny.ngrok-free.app/call_emergency?name=John%20Doe&location=E7
-    twiml_url = f"https://formerly-dashing-bunny.ngrok-free.app/generate_twiml?name={name}&location={location}"
+    twiml_url = f"https://formerly-dashing-bunny.ngrok-free.app/generate_twiml?name={info['name']}&location={info['location']}"
     return  call_emergency(to_number='+16477007379', url=twiml_url)
+
+@app.route('/text_emergency')
+def text_em():
+    dbid = parse.quote_plus(request.args.get('dbid'))
+    info = user_info.find_one({'_id': ObjectId(dbid)})
+    ret = []
+
+    for contact in info['contacts']:
+        ret.append(text_emergency(to_number=contact['phone_number'], to_name=contact['name'], patient_name=info['name'], location=info['location']))
+
+    return ret
 
 @app.route('/generate_twiml', methods=['GET', 'POST'])
 def generate_twiml():
