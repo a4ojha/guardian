@@ -12,6 +12,13 @@ def call_em():
     twiml_url = f"https://formerly-dashing-bunny.ngrok-free.app/generate_twiml?name={name}&location={location}"
     return call_emergency(to_number='+16477007379', url=twiml_url)
 
+@app.route('/text_emergency')
+def text_em():
+    #to_name = request.args.get('to_name')
+    #patient_name = request.args.get('patient_name')
+
+    text_emergency(to_number='+15873727398', to_name='John Doe', patient_name='Jane Doe', location='E7')
+
 @app.route('/generate_twiml', methods=['GET', 'POST'])
 def generate_twiml():
     name = request.args.get('name')
