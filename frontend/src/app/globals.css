@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&display=swap');
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+body {
+  color: var(--foreground);
+  /* background: var(--background); */
+  background: conic-gradient(from 180deg, #000000 0%, #01002C 51%, #000000 100%);
+  font-family: "Fustat", sans-serif;
+  height: 100vh;
+  width: 100vw;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.title-wrapper {
+  /* border: red solid; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  padding-left: 5rem;
+}
+
+.logo-text {
+  background: linear-gradient(to bottom, #FFFFFF, #07062F);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+  font-weight: 800;
+  text-shadow: #ffffff3f 3px 3px 4px;
+
+  animation: fadeInUp 1s ease;
+}
+
+.title-wrapper p {
+  color: #D1D1D1;
+  padding-left: 0.6rem;
+  padding-top: 0.5rem;
+
+  opacity: 0;
+  animation: fadeInUp 1s forwards;
+  animation-delay: 0.15s;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.buttons {
+  padding-left: 0.6rem;
+  padding-top: 6rem;
+  opacity: 0;
+  animation: fadeInUp 1s forwards;
+  animation-delay: 0.25s;
+
+  display: flex;
+  gap: 1rem;
+}
+
+.button {
+  padding: 1rem 2rem 1rem 2rem;
+  border-radius: 10rem;
+  background: linear-gradient(to top, #17171D 0%, #030510 100%);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  transition:box-shadow 0.25s;
+}
+
+.button:hover {
+  box-shadow: 0 0 10px 0 #ffffff3f;
+  cursor: pointer;
+}
+
+.video-feed-container {
+  margin-top: 5rem;
+}
