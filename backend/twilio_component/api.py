@@ -1,5 +1,5 @@
 from flask import Flask, request, Response
-from call_text_manager import call_emergency
+from backend.twilio.call_text_manager import call_emergency
 from urllib import parse
 
 app = Flask(__name__)

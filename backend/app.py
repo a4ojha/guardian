@@ -1,7 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Response, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
-from twilio.call_text_manager import call_emergency
+from twilio_component.call_text_manager import call_emergency
+from speechify.text2speech import text2speech
 from urllib import parse
 import cv2
 import base64
@@ -65,6 +66,12 @@ def generate_twiml():
     </Response>
     """
     return Response(response, mimetype='text/xml')
+
+@app.route('/text2speech', methods=['POST'])
+def convert_text2speech():
+    text_content = "Hi, this is a test message"
+    audio_data = text2speech(text_content)
+    return Response(audio_data, mimetype='audio/mp3')
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=5000)

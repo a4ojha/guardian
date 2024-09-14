@@ -36,7 +36,7 @@ export default function RootLayout({
         {children}
 
         {/* grainy svg */}
-        <svg>
+        <svg style={{visibility: 'hidden', height: '0', width: '0'}}>
           <filter id='noiseFilter'>
             <feTurbulence 
               type='fractalNoise' 
