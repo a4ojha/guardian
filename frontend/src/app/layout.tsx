@@ -34,6 +34,16 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+
+        {/* grainy svg */}
+        <svg>
+          <filter id='noiseFilter'>
+            <feTurbulence 
+              type='fractalNoise' 
+              baseFrequency='0.6' 
+            />
+          </filter>
+        </svg>
       </body>
     </html>
   );

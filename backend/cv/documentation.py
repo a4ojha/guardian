@@ -1,10 +1,15 @@
 from inference import get_model
 import supervision as sv
 import cv2
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+
+API_KEY = os.getenv('ROBOFLOW_API_KEY')
 
 # load a pre-trained yolov8n model
-model = get_model(model_id="fall-detection-ca3o8/4")
+model = get_model(model_id="fall-detection-ca3o8/4", api_key=API_KEY)
 
 # # run inference on our chosen image, image can be a url, a numpy array, a PIL image, etc.
 # results = model.infer(image)[0]
@@ -23,7 +28,7 @@ model = get_model(model_id="fall-detection-ca3o8/4")
 # # display the image
 # sv.plot_image(annotated_image)
 
-video = cv2.VideoCapture(0)
+video = cv2.VideoCapture(1)
 
 
 # Infer via the Roboflow Infer API and return the result
@@ -36,9 +41,9 @@ def infer():
     detections = sv.Detections.from_inference(results)
 
 
-
-    print(detections.confidence)
-
+    
+    if detections.confidence > 0.8 and detections.confidence:
+        print("this is a FALL")
 
 while 1:
     # On "q" keypress, exit
