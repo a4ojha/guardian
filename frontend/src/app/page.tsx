@@ -1,17 +1,16 @@
 "use client"
 
 import Image from "next/image";
-import WebcamStream from "./components/Webcam";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <>
+    <div className="">
       <div className="title-wrapper noselect">
         <h1 className="logo-text text-9xl">Guardian</h1>
         <p className="text-2xl">Real-time monitoring, real care.</p>
 
-        <div className="buttons">
+        <div className="buttons-container">
           <Link href="/live-feed" className="button">
             <div className="w-5 h-5 rounded-full bg-[#900000] animate-pulse"></div>
             <span className="text-xl">Live Feed</span>
@@ -22,9 +21,6 @@ export default function Home() {
           </Link>
         </div>
       </div>
-
-      
-      {/* <WebcamStream /> */}
-    </>
+    </div>
   );
 }

@@ -10,7 +10,7 @@ def call_em():
     location = parse.quote_plus(request.args.get('location'))
     # https://formerly-dashing-bunny.ngrok-free.app/call_emergency?name=John%20Doe&location=E7
     twiml_url = f"https://formerly-dashing-bunny.ngrok-free.app/generate_twiml?name={name}&location={location}"
-    return call_emergency(to_number='+15873727398', url=twiml_url)
+    return call_emergency(to_number='+16477007379', url=twiml_url)
 
 @app.route('/generate_twiml', methods=['GET', 'POST'])
 def generate_twiml():
