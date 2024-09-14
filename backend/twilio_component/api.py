@@ -1,3 +1,5 @@
+'''
+
 from flask import Flask, request, Response
 from backend.twilio.call_text_manager import call_emergency
 from urllib import parse
@@ -36,3 +38,5 @@ def generate_twiml():
 # Running the Flask app
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+    
+'''
