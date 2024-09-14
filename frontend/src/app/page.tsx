@@ -7,7 +7,10 @@ export default function Home() {
   return (
     <div className="">
       <div className="title-wrapper noselect">
-        <h1 className="logo-text text-9xl">Guardian</h1>
+        <div className="logo-container flex flex-row gap-4 items-center">
+          <h1 className="logo-text text-9xl">Guardian</h1>
+          <Image src="/logo.svg" alt="Guardian Logo" width={120} height={120} />
+        </div>
         <p className="text-2xl">Real-time monitoring, real care.</p>
 
         <div className="buttons-container">
