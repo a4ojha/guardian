@@ -1,0 +1,3 @@
+.venv
+backend/secrets.json
+backend/__pycache__/call_text_manager.cpython-311.pyc
