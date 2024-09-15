@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 import os
 import vlc
 import time
-import twilio.call_text_manager
 
 load_dotenv()
 path = os.path.abspath("speech.mp3")
