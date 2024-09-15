@@ -3,8 +3,13 @@ import supervision as sv
 import cv2
 from dotenv import load_dotenv
 import os
+import vlc
+import time
 
 load_dotenv()
+path = os.path.abspath("speech.mp3")
+p = vlc.MediaPlayer("file://" + path)
+
 
 API_KEY = os.getenv('ROBOFLOW_API_KEY')
 
@@ -30,7 +35,6 @@ model = get_model(model_id="fall-detection-ca3o8/4", api_key=API_KEY)
 
 video = cv2.VideoCapture(1)
 
-
 # Infer via the Roboflow Infer API and return the result
 def infer():
     # Get the current image from the webcam
@@ -40,10 +44,14 @@ def infer():
     results = model.infer(img)[0]
     detections = sv.Detections.from_inference(results)
 
-
+    if len(detections.confidence) == 0:
+        return
     
-    if detections.confidence > 0.8 and detections.confidence:
+    if detections.confidence[0] > 0.8:
         print("this is a FALL")
+        p.play()
+        time.sleep(30)
+
 
 while 1:
     # On "q" keypress, exit

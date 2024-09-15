@@ -2,7 +2,7 @@ from flask import Flask, render_template, Response, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from twilio_component.call_text_manager import call_emergency, text_emergency
-from speechify.text2speech import text2speech
+from scripts.text2speech import text2speech
 from urllib import parse
 from pymongo.mongo_client import MongoClient
 from bson import ObjectId
@@ -86,6 +86,26 @@ def generate_twiml():
     </Response>
     """
     return Response(response, mimetype='text/xml')
+
+@app.route('/get_user_info', methods=['GET'])
+def get_user_info():
+    dbid = request.args.get('dbid')
+    info = user_info.find_one({'_id': ObjectId(dbid)})
+    info['_id'] = str(info['_id'])
+    return info
+
+@app.route('/update_user_info', methods=['POST'])
+def update_user_info():
+    dbid = request.args.get('dbid')
+    info = request.json
+    user_info.update_one({'_id': ObjectId(dbid)}, {'$set': info})
+    return info
+    
+@app.route('/add_user', methods=['POST'])
+def add_user():
+    info = request.json
+    result = user_info.insert_one(info)
+    return result.inserted_id
 
 @app.route('/text2speech', methods=['POST'])
 def convert_text2speech():
