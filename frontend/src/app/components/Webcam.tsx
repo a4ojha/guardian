@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import io, { Socket } from 'socket.io-client'; 
+import io from 'socket.io-client'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import Image from 'next/image';
 
 export default function WebcamStream() {
-  // Define the socket state to be either `null` or a `Socket` instance
-  const [socket, setSocket] = useState<Socket | null>(null);
   const [videoFrame, setVideoFrame] = useState('');
 
   useEffect(() => {
     // Connect to the Flask backend using Socket.IO
-    const newSocket: Socket = io('http://127.0.0.1:5000');  // Flask server address
-    setSocket(newSocket);
+    const newSocket = io('http://127.0.0.1:5000');  // Flask server address
 
     // Request frames from the server
     newSocket.emit('request_frame');
@@ -28,9 +28,17 @@ export default function WebcamStream() {
   return (
     <div className="relative w-full h-full">
       {videoFrame ? (
-        <img src={videoFrame} alt="Webcam Feed" className="absolute top-2 left-2 bottom-2 right-2 object-cover m-auto w-[98%] h-[95%] rounded-xl" />
+        <Image
+          src={videoFrame}
+          alt="Webcam Feed"
+          width={800} 
+          height={600} 
+          className="absolute top-2 left-2 bottom-2 right-2 object-cover m-auto w-[98%] h-[95%] rounded-xl"
+        />
       ) : (
-        <p>Loading webcam...</p>
+        <div className="loader-wrapper">
+          <FontAwesomeIcon icon={faCircleNotch} className="loader text-9xl" />
+        </div>
       )}
     </div>
   );
