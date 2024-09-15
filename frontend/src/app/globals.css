@@ -326,3 +326,7 @@ ul {
   list-style-type: disc;
   list-style-position: inside;
 }
+
+#test-buttons {
+  /* opacity: 0; */
+}

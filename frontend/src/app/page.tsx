@@ -18,7 +18,7 @@ export default function Home() {
             <div className="w-7 h-7 rounded-full bg-[#900000] animate-pulse"></div>
             <span className="text-3xl">Live Feed</span>
           </Link>
-          <Link href="/live-feed" className="button">
+          <Link href="/event-log" className="button">
             <img src="/history.svg" className="w-7 h-7" />
             <span className="text-3xl">Event Log</span>
           </Link>

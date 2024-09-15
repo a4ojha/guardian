@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faVolumeLow } from "@fortawesome/free-solid-svg-icons";
 
 export default function Page() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -58,30 +58,36 @@ export default function Page() {
         </video>
       )}
 
-      <div className="fixed top-1 left-1 flex flex-col">
+      <div className="fixed top-10 left-10 flex flex-col items-start !z-50" id="test-buttons">
         <button
           onClick={() => {
             setIsVideoPlaying(true);
             setCurrentVideo(videos.fallen);
           }}
+          className="hover:opacity-50 transition flex flex-row items-center "
         >
-          Play &apos;Fallen&apos;
+          v1
+          <FontAwesomeIcon icon={faVolumeLow} className="ml-2 text-xs mb-[3px] text-[#b3b3b3]" />
         </button>
         <button
           onClick={() => {
             setIsVideoPlaying(true);
             setCurrentVideo(videos.calling);
           }}
+          className="hover:opacity-50 transition flex flex-row items-center "
         >
-          Play &apos;Calling&apos;
+          v2
+          <FontAwesomeIcon icon={faVolumeLow} className="ml-2 text-xs mb-[3px] text-[#b3b3b3]" />
         </button>
         <button
           onClick={() => {
             setIsVideoPlaying(true);
             setCurrentVideo(videos.no_call);
           }}
+          className="hover:opacity-50 transition flex flex-row items-center "
         >
-          Play &apos;No Call&apos;
+          v3
+          <FontAwesomeIcon icon={faVolumeLow} className="ml-2 text-xs mb-[3px] text-[#b3b3b3]" />
         </button>
       </div>
 

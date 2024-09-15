@@ -17,7 +17,7 @@ export default function WebcamStream() {
     newSocket.emit('subscribe_camera', {"dbid": '66e5ddbc7c757f3c10cac13a'});
 
     // Listen for video frames from the backend
-    newSocket.on('receive_frame', (frame: any) => {
+    newSocket.on('receive_frame', (frame) => {
       setVideoFrame(`data:image/jpeg;base64,${frame.frame}`);
     });
 
