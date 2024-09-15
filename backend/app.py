@@ -1,6 +1,6 @@
 from flask import Flask, render_template, Response, request
 from flask_cors import CORS
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, join_room, leave_room
 from twilio_component.call_text_manager import call_emergency, text_emergency
 from urllib import parse
 from pymongo.mongo_client import MongoClient
@@ -15,24 +15,18 @@ CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 load_dotenv()
+
 mongo_client = MongoClient(os.getenv('database_uri'))
 db = mongo_client.get_database('users')
 user_info = db.get_collection('user_info')
 
-# Initialize the webcam
-camera = cv2.VideoCapture(0)
+camera_data = {}
 
-def gen_frames():
+def gen_frames(dbid):
     while True:
-        success, frame = camera.read()
-        if not success:
+        if dbid not in camera_data:
             break
-        else:
-            # Encode the frame in JPEG format
-            _, buffer = cv2.imencode('.jpg', frame)
-            # Convert to base64 to send via WebSocket
-            frame_data = base64.b64encode(buffer).decode('utf-8')
-            yield frame_data
+        yield camera_data[dbid]
 
 @app.route('/')
 def index():
@@ -47,10 +41,27 @@ def handle_disconnect():
     print('Client disconnected')
 
 @socketio.on('request_frame')
-def stream_video():
-    for frame_data in gen_frames():
+def stream_video(json):
+    for frame_data in gen_frames(json.get('dbid')):
         # Emit each frame to the frontend
         socketio.emit('video_frame', frame_data)
+
+@socketio.on('video_frame')
+def handle_video_frame(data):
+    dbid = data.get('dbid')
+    frame = data.get('frame')
+
+    camera_data[dbid] = frame
+
+    socketio.emit('receive_frame', {'dbid': dbid, 'frame': frame}, to=dbid)
+
+@socketio.on('subscribe_camera')
+def subscribe_camera(data):
+    join_room(data.get('dbid'))
+
+@socketio.on('unsubscribe_camera')
+def unsubscribe_camera(data):
+    leave_room(data.get('dbid'))
 
 # Phone call endpoint
 @app.route('/call_emergency')
@@ -119,6 +130,13 @@ def get_log_events():
     dbid = request.args.get('dbid')
     info = user_info.find_one({'_id': ObjectId(dbid)})
     return info['log_events']
+
+@app.route('/upload_camera', methods=['PUT'])
+def connect_to_camera():
+    dbid = request.args.get('dbid')
+    camera_data[dbid] = request.data.decode('utf-8')
+    print("received frame")
+    return camera_data[dbid]
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=5000)
