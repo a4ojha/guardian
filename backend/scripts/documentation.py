@@ -23,7 +23,7 @@ n = vlc.MediaPlayer("notcalling.mp3")
 sio = socketio.Client()
 
 API_KEY = os.getenv('ROBOFLOW_API_KEY')
-url_root = 'https://formerly-dashing-bunny.ngrok-free.app/'
+url_root = 'https://infinite-remotely-calf.ngrok-free.app/'
 
 # load a pre-trained yolov8n model
 model = get_model(model_id="fall-detection-ca3o8/4", api_key=API_KEY)
