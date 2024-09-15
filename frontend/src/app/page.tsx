@@ -24,7 +24,7 @@ export default function Home() {
           </Link>
           <Link href="/ai-assistant" className="button">
             <img src="/sound.svg" className="w-8 h-8" />
-            <span className="text-3xl">AI Assistant</span>
+            <span className="text-3xl">Live Virtual Assistant</span>
           </Link>
         </div>
       </div>
