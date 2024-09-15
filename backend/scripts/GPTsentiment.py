@@ -31,7 +31,7 @@ def detect_distress(text):
 
     # Extract and return the response
     result = response.choices[0].message.content
-    return result
+    return result == 'Call'
 
 # Example usage
 if __name__ == "__main__":

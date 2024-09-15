@@ -5,38 +5,25 @@ from dotenv import load_dotenv
 import os
 import vlc
 import time
+from whisper import get_speech_text
+from GPTsentiment import detect_distress
+import requests
 
 load_dotenv()
 path = os.path.abspath("speech.mp3")
 p = vlc.MediaPlayer("file://" + path)
 
-
 API_KEY = os.getenv('ROBOFLOW_API_KEY')
+url_root = 'https://formerly-dashing-bunny.ngrok-free.app/'
 
 # load a pre-trained yolov8n model
 model = get_model(model_id="fall-detection-ca3o8/4", api_key=API_KEY)
 
-# # run inference on our chosen image, image can be a url, a numpy array, a PIL image, etc.
-# results = model.infer(image)[0]
-# detections = sv.Detections.from_inference(results)
-
-# # create supervision annotators
-# bounding_box_annotator = sv.BoundingBoxAnnotator()
-# label_annotator = sv.LabelAnnotator()
-
-# # annotate the image with our inference results
-# annotated_image = bounding_box_annotator.annotate(
-#     scene=image, detections=detections)
-# annotated_image = label_annotator.annotate(
-#     scene=annotated_image, detections=detections)
-
-# # display the image
-# sv.plot_image(annotated_image)
-
 video = cv2.VideoCapture(1)
+over_thresh_cnt = 0
 
 # Infer via the Roboflow Infer API and return the result
-def infer():
+def infer(dbid):
     # Get the current image from the webcam
     ret, img = video.read()
     cv2.imshow('image', img)
@@ -48,16 +35,29 @@ def infer():
         return
     
     if detections.confidence[0] > 0.8:
-        print("this is a FALL")
-        p.play()
-        time.sleep(30)
+        over_thresh_cnt += 1
+        if over_thresh_cnt > 10:
+            print("this is a FALL")
+            p.play()
+
+            words = get_speech_text()
+            if detect_distress(words):
+                requests.get(f'{url_root}call_emergency?dbid={dbid}')
+                requests.get(f'{url_root}text_emergency?dbid={dbid}')
+                requests.post(f'{url_root}add_fall_event?dbid={dbid}', json={'time': time.time(), 'event': 'fall'})
+
+            over_thresh_cnt = 0
+            time.sleep(60)
+    else:
+        over_thresh_cnt = 0
 
 
-while 1:
-    # On "q" keypress, exit
-    if(cv2.waitKey(1) == ord('q')):
-        break
+def main(dbid):
+    while 1:
+        # On "q" keypress, exit
+        if(cv2.waitKey(1) == ord('q')):
+            break
 
-    # Synchronously get a prediction from the Roboflow Infer API
-    infer()
+        # Synchronously get a prediction from the Roboflow Infer API
+        infer(dbid)
     
