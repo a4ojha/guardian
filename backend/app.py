@@ -2,7 +2,6 @@ from flask import Flask, render_template, Response, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from twilio_component.call_text_manager import call_emergency, text_emergency
-from scripts.text2speech import text2speech
 from urllib import parse
 from pymongo.mongo_client import MongoClient
 from bson import ObjectId
@@ -59,8 +58,8 @@ def call_em():
     dbid = parse.quote_plus(request.args.get('dbid'))
     info = user_info.find_one({'_id': ObjectId(dbid)})
     # https://formerly-dashing-bunny.ngrok-free.app/call_emergency?name=John%20Doe&location=E7
-    twiml_url = f"https://formerly-dashing-bunny.ngrok-free.app/generate_twiml?name={info['name']}&location={info['location']}"
-    return  call_emergency(to_number='+16477007379', url=twiml_url)
+    twiml_url = f"https://formerly-dashing-bunny.ngrok-free.app/generate_twiml?name={parse.quote_plus(info['name'])}&location={parse.quote_plus(info['location'])}"
+    return call_emergency(to_number='+15873727398', url=twiml_url)
 
 @app.route('/text_emergency')
 def text_em():
@@ -104,14 +103,23 @@ def update_user_info():
 @app.route('/add_user', methods=['POST'])
 def add_user():
     info = request.json
+    info['log_events'] = []
     result = user_info.insert_one(info)
     return result.inserted_id
 
-@app.route('/text2speech', methods=['POST'])
-def convert_text2speech():
-    text_content = "Hi, this is a test message"
-    audio_data = text2speech(text_content)
-    return Response(audio_data, mimetype='audio/mp3')
+@app.route('/add_fall_event', methods=['POST'])
+def add_log_event():
+    dbid = request.args.get('dbid')
+    event = request.json
+    user_info.update_one({'_id': ObjectId(dbid)}, {'$push': {'log_events': event}})
+    return event
+
+@app.route('/get_fall_events', methods=['GET'])
+def get_log_events():
+    dbid = request.args.get('dbid')
+    info = user_info.find_one({'_id': ObjectId(dbid)})
+    return info['log_events']
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=5000)
+    # 66e5ddbc7c757f3c10cac13a dbid
