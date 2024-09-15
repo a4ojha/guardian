@@ -38,3 +38,9 @@ def text2speech(text_content):
         
     else:
         return f"Failed to convert to speech: {response.status_code}"
+
+if __name__ == "__main__":
+    text_content = "Okay. I will continue to monitor you. If you feel worse, please call emergency services."
+    audio_data = text2speech(text_content)
+    with open("not-fall.mp3", "wb") as f:
+        f.write(audio_data)
