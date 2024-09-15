@@ -11,7 +11,9 @@ import requests
 
 load_dotenv()
 path = os.path.abspath("speech.mp3")
-p = vlc.MediaPlayer("file://" + path)
+# p = vlc.MediaPlayer("file://" + path)
+p = vlc.MediaPlayer("speech.mp3")
+
 
 API_KEY = os.getenv('ROBOFLOW_API_KEY')
 url_root = 'https://formerly-dashing-bunny.ngrok-free.app/'
@@ -24,6 +26,7 @@ over_thresh_cnt = 0
 
 # Infer via the Roboflow Infer API and return the result
 def infer(dbid):
+    global over_thresh_cnt
     # Get the current image from the webcam
     ret, img = video.read()
     cv2.imshow('image', img)
@@ -60,4 +63,6 @@ def main(dbid):
 
         # Synchronously get a prediction from the Roboflow Infer API
         infer(dbid)
-    
+
+if __name__ == '__main__':
+    main("66e5ddbc7c757f3c10cac13a")
