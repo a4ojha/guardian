@@ -2,7 +2,7 @@ from flask import Flask, render_template, Response, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from twilio_component.call_text_manager import call_emergency, text_emergency
-from cv.text2speech import text2speech
+from scripts.text2speech import text2speech
 from urllib import parse
 from pymongo.mongo_client import MongoClient
 from bson import ObjectId
