@@ -30,6 +30,7 @@ model = get_model(model_id="fall-detection-ca3o8/4", api_key=API_KEY)
 
 video = cv2.VideoCapture(0)
 over_thresh_cnt = 0
+last_fall_time = 0
 
 # Infer via the Roboflow Infer API and return the result
 def infer(dbid):
@@ -40,6 +41,9 @@ def infer(dbid):
         return
     encoded_img = cv2.imencode('.jpg', img)[1].tobytes()
     sio.emit('video_frame', {'dbid': dbid, 'frame': base64.b64encode(encoded_img).decode('utf-8')})
+    if time.time() - last_fall_time < 30:
+        return
+    
     results = model.infer(img)[0]
     detections = sv.Detections.from_inference(results)
 
@@ -62,7 +66,7 @@ def infer(dbid):
             else:
                 n.play()
             over_thresh_cnt = 0
-            time.sleep(60)
+            last_fall_time = time.time()
     else:
         over_thresh_cnt = 0
 
