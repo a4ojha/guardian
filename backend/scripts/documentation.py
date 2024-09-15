@@ -44,14 +44,15 @@ def infer(dbid):
 
     if len(detections.confidence) == 0:
         return
-    
+    print(detections.confidence[0])
     if detections.confidence[0] > 0.8:
         over_thresh_cnt += 1
-        if over_thresh_cnt > 10:
-            print("this is a FALL")
+        if over_thresh_cnt > 1:
+            print("Attention: A fall has been detected")
             p.play()
 
             words = get_speech_text()
+            print(words)
             if detect_distress(words):
                 c.play()
                 requests.get(f'{url_root}call_emergency?dbid={dbid}')
