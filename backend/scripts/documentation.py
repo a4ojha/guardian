@@ -16,6 +16,7 @@ path = os.path.abspath("speech.mp3")
 p = vlc.MediaPlayer("speech.mp3")
 path = os.path.abspath("calling.mp3")
 path = os.path.abspath("notcalling.mp3")
+# p = vlc.MediaPlayer("file://" + path)
 c = vlc.MediaPlayer("calling.mp3")
 n = vlc.MediaPlayer("notcalling.mp3")
 
