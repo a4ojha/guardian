@@ -262,3 +262,67 @@ body::before {
   min-width: fit-content;
   width: 20rem;
 }
+
+.pages-container {
+  /* border: red solid; */
+  display: flex;
+  gap: 1rem;
+}
+
+.page-button {
+  border: #4F4F4F solid 2px;
+  border-radius: 5rem;
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  cursor: pointer;
+  /* background-color: #29292940; */
+
+  transition: background-color 0.25s;
+}
+
+.section {
+  width: 100%;
+  height: fit-content;
+  border: #4F4F4F solid 2px;
+  border-radius: 2rem;
+  background-color: #29292940;
+  padding: 2rem 3rem 2rem 3rem;
+
+  display: flex;
+  flex-direction: row;
+  opacity: 0;
+  animation: fadeInUp 1s forwards;
+}
+.section:nth-child(2) {
+  animation-delay: 0s;
+}
+.section:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.section:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.name {
+  background: linear-gradient(to bottom, #FFFFFF, #292929);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+  font-weight: 800; 
+  padding-bottom: 0.3rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.01rem;
+}
+
+ul {
+  list-style-type: disc;
+  list-style-position: inside;
+}

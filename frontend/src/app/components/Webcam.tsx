@@ -14,11 +14,11 @@ export default function WebcamStream() {
     });
 
     // Request frames from the server
-    newSocket.emit('request_frame');
+    newSocket.emit('subscribe_camera', {"dbid": '66e5ddbc7c757f3c10cac13a'});
 
     // Listen for video frames from the backend
-    newSocket.on('video_frame', (frame: string) => {
-      setVideoFrame(`data:image/jpeg;base64,${frame}`);
+    newSocket.on('receive_frame', (frame: any) => {
+      setVideoFrame(`data:image/jpeg;base64,${frame.frame}`);
     });
 
     // Clean up on component unmount
