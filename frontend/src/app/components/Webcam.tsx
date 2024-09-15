@@ -9,7 +9,7 @@ export default function WebcamStream() {
 
   useEffect(() => {
     // Connect to the Flask backend using Socket.IO
-    const newSocket = io('wss://formerly-dashing-bunny.ngrok-free.app/', {
+    const newSocket = io('wss://infinite-remotely-calf.ngrok-free.app/', {
       transports: ['websocket']
     });
 

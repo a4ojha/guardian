@@ -16,13 +16,14 @@ path = os.path.abspath("speech.mp3")
 p = vlc.MediaPlayer("speech.mp3")
 path = os.path.abspath("calling.mp3")
 path = os.path.abspath("notcalling.mp3")
+# p = vlc.MediaPlayer("file://" + path)
 c = vlc.MediaPlayer("calling.mp3")
 n = vlc.MediaPlayer("notcalling.mp3")
 
 sio = socketio.Client()
 
 API_KEY = os.getenv('ROBOFLOW_API_KEY')
-url_root = 'https://formerly-dashing-bunny.ngrok-free.app/'
+url_root = 'https://infinite-remotely-calf.ngrok-free.app/'
 
 # load a pre-trained yolov8n model
 model = get_model(model_id="fall-detection-ca3o8/4", api_key=API_KEY)
@@ -44,14 +45,15 @@ def infer(dbid):
 
     if len(detections.confidence) == 0:
         return
-    
+    print(detections.confidence[0])
     if detections.confidence[0] > 0.8:
         over_thresh_cnt += 1
-        if over_thresh_cnt > 10:
-            print("this is a FALL")
+        if over_thresh_cnt > 1:
+            print("Attention: A fall has been detected")
             p.play()
 
             words = get_speech_text()
+            print(words)
             if detect_distress(words):
                 c.play()
                 requests.get(f'{url_root}call_emergency?dbid={dbid}')
