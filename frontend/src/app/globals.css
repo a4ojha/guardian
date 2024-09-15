@@ -133,6 +133,7 @@ body::before {
 }
 
 .video-feed-container {
+  animation: fadeInUp 1s ease;
   margin-top: 5rem;
 }
 
