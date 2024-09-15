@@ -1,27 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import io, { Socket } from "socket.io-client"; // or another WebSocket library
-import Image from "next/image";
+import io, { Socket } from "socket.io-client";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function Page() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [currentVideo, setCurrentVideo] = useState<string | null>(null);
-  const [socket, setSocket] = useState<any>(null);
 
   const videos = {
     fallen: "/demo/fallen.mp4",
     calling: "/demo/calling.mp4",
     no_call: "/demo/no-call.mp4"
-  }
+  };
 
   useEffect(() => {
     // Initialize Socket.IO connection to the backend
-    const newSocket: Socket = io("http://127.0.0.1:5000"); // Your backend address here
-    setSocket(newSocket);
+    const newSocket: Socket = io("http://127.0.0.1:5000");
 
     // Listen for a video play event from the backend
     newSocket.on("play_video", (videoId: string) => {
@@ -31,9 +28,7 @@ export default function Page() {
 
     // Clean up the socket connection when the component unmounts
     return () => {
-      if (newSocket) {
-        newSocket.close(); // Proper cleanup
-      }
+      newSocket.close(); // Proper cleanup
     };
   }, []);
 
@@ -44,14 +39,13 @@ export default function Page() {
   };
 
   return (
-    <div className="ai relative w-full h-full">
+    <div className="ai-page relative w-full h-full">
       <div className="fixed top-10 right-10 !z-40">
         <Link href="/">
           <FontAwesomeIcon icon={faXmark} className="text-4xl text-gray-500 hover:text-white hover:scale-110 transition-all" />
         </Link>
       </div>
 
-      {/* Display the video when a video is playing */}
       {isVideoPlaying && currentVideo && (
         <video
           key={currentVideo}
@@ -64,33 +58,30 @@ export default function Page() {
         </video>
       )}
 
-      {/* TESTING, manually play video */}
       <div className="fixed top-1 left-1 flex flex-col">
         <button
           onClick={() => {
             setIsVideoPlaying(true);
-            setCurrentVideo(videos.fallen); // Play fallen
-            console.log(currentVideo);
-          }}>
-          Play 'Fallen'
+            setCurrentVideo(videos.fallen);
+          }}
+        >
+          Play &apos;Fallen&apos;
         </button>
-
         <button
           onClick={() => {
             setIsVideoPlaying(true);
-            setCurrentVideo(videos.calling); // Play calling
-            console.log(currentVideo);
-          }}>
-          Play 'Calling'
+            setCurrentVideo(videos.calling);
+          }}
+        >
+          Play &apos;Calling&apos;
         </button>
-
         <button
           onClick={() => {
             setIsVideoPlaying(true);
-            setCurrentVideo(videos.no_call); // Play no-call
-            console.log(currentVideo);
-          }}>
-          Play 'No Call'
+            setCurrentVideo(videos.no_call);
+          }}
+        >
+          Play &apos;No Call&apos;
         </button>
       </div>
 
@@ -99,7 +90,6 @@ export default function Page() {
         <div className="red blob"></div>
         <div className="green blob"></div>
       </div>
-
     </div>
   );
 }
