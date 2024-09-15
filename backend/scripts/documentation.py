@@ -14,6 +14,10 @@ import socketio
 load_dotenv()
 path = os.path.abspath("speech.mp3")
 p = vlc.MediaPlayer("speech.mp3")
+path = os.path.abspath("calling.mp3")
+path = os.path.abspath("notcalling.mp3")
+c = vlc.MediaPlayer("calling.mp3")
+n = vlc.MediaPlayer("notcalling.mp3")
 
 sio = socketio.Client()
 
@@ -49,10 +53,12 @@ def infer(dbid):
 
             words = get_speech_text()
             if detect_distress(words):
+                c.play()
                 requests.get(f'{url_root}call_emergency?dbid={dbid}')
                 requests.get(f'{url_root}text_emergency?dbid={dbid}')
                 requests.post(f'{url_root}add_fall_event?dbid={dbid}', json={'time': time.time(), 'event': 'fall'})
-
+            else:
+                n.play()
             over_thresh_cnt = 0
             time.sleep(60)
     else:
