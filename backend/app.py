@@ -59,7 +59,7 @@ def call_em():
     info = user_info.find_one({'_id': ObjectId(dbid)})
     # https://formerly-dashing-bunny.ngrok-free.app/call_emergency?name=John%20Doe&location=E7
     twiml_url = f"https://formerly-dashing-bunny.ngrok-free.app/generate_twiml?name={info['name']}&location={info['location']}"
-    return call_emergency(to_number='+16477007379', url=twiml_url)
+    return call_emergency(to_number='+15873727398', url=twiml_url)
 
 @app.route('/text_emergency')
 def text_em():
