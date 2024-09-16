@@ -37,6 +37,5 @@ When we entered this hackathon, our primary goal was simply to learn as much as 
 ## What we learned 🧠
 Throughout the development of Guardian, we gained valuable experience working with a diverse array of APIs, including Roboflow for computer vision, Speechify for text-to-speech, Google’s speech-to-text, and Twilio for automating emergency notifications. Beyond technical skills, we deepened our understanding of how to efficiently read and interpret documentation, troubleshoot bugs, and collaborate effectively within a team. We also learned some lighter lessons along the way—like discovering the upper limit of how many fruit snacks one can reasonably consume during a hackathon!
 
-## You can see our product demo on Youtube:
-```https://youtu.be/U3v-NOYGvrk?si=8SlsW2z0ElOQGWr9
-```
+## You can see our product demo on Youtube: https://youtu.be/U3v-NOYGvrk?si=8SlsW2z0ElOQGWr9
+
