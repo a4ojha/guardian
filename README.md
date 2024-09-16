@@ -1,7 +1,5 @@
 # Guardian
 ![guard1](https://github.com/user-attachments/assets/f0231c91-bfc5-4349-a87f-e12e63568cfc)
-![guard2](https://github.com/user-attachments/assets/11f0a113-ccef-498a-9add-bcc9f6923c1b)
-
 
 ## Inspiration 💡
 The inspiration behind creating Guardian, a machine-learning-powered patient monitoring system, stemmed from both personal experience and an acute awareness of the growing crisis in the healthcare industry. With a projected shortfall of 151,000 caregivers by 2030—rising to an alarming 355,000 by 2040—the need for innovative solutions has never been more pressing. Our team has felt this challenge firsthand: Adon’s sister works in healthcare research, providing us with a clear view of the immense difficulties caregivers face in maintaining the quality of patient care.
